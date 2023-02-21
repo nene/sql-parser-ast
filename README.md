@@ -1,4 +1,4 @@
-# SQL Parser AST [![npm version](https://img.shields.io/npm/v/sql-parser-ast)](https://www.npmjs.com/package/sql-parser-ast)
+# SQL Parser AST [![npm version](https://img.shields.io/npm/v/sql-parser-ast)](https://www.npmjs.com/package/sql-parser-ast) ![build status](https://github.com/nene/sql-parser-ast/actions/workflows/build.yml/badge.svg)
 
 Uses [sql-parser-cst][] to parse SQL first into Concrete Syntax Tree (CST)
 and then converts the result to Abstract Syntax Tree (AST).
