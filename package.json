@@ -27,6 +27,9 @@
     "test": "yarn generate && yarn test:bigquery && yarn test:mysql && yarn test:sqlite",
     "lint": "eslint src test"
   },
+  "dependencies": {
+    "sql-parser-cst": "^0.12.1"
+  },
   "devDependencies": {
     "@types/jest": "^29.1.2",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
