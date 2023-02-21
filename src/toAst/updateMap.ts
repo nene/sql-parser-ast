@@ -1,5 +1,4 @@
-import { TransformMap } from "../cstTransformer";
-import { AllUpdateNodes } from "../cst/Node";
+import { TransformMap, AllUpdateNodes } from "sql-parser-cst";
 import { Node as AstNode, UpdateStmt } from "../ast/Node";
 import { cstToAst } from "../cstToAst";
 import { keywordToString, mergeClauses } from "./transformUtils";

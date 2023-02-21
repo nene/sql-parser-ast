@@ -1,5 +1,4 @@
-import { TransformMap } from "../cstTransformer";
-import { AllCreateTableNodes } from "../cst/Node";
+import { TransformMap, AllCreateTableNodes } from "sql-parser-cst";
 import { CreateTableStmt, Node as AstNode } from "../ast/Node";
 import { cstToAst } from "../cstToAst";
 import { keywordToBoolean } from "./transformUtils";

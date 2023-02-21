@@ -1,5 +1,4 @@
-import { TransformMap } from "../cstTransformer";
-import { AllSelectNodes } from "../cst/Node";
+import { TransformMap, AllSelectNodes } from "sql-parser-cst";
 import {
   Expr,
   Identifier,

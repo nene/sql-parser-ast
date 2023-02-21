@@ -6,7 +6,7 @@ import {
   ReturningClause,
   WhereClause,
   WithClause as CstWithClause,
-} from "../cst/Node";
+} from "sql-parser-cst";
 import {
   Alias,
   Expr,

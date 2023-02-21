@@ -1,4 +1,4 @@
-import { Node as CstNode } from "./cst/Node";
+import { Node as CstNode } from "sql-parser-cst";
 import { Node as AstNode } from "./ast/Node";
 import { transformToAst } from "./toAst/transformToAst";
 

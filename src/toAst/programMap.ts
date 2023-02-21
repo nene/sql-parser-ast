@@ -1,5 +1,4 @@
-import { FullTransformMap } from "../cstTransformer";
-import { Program } from "../cst/Node";
+import { FullTransformMap, Program } from "sql-parser-cst";
 import { Node as AstNode } from "../ast/Node";
 import { cstToAst } from "../cstToAst";
 

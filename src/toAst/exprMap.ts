@@ -1,5 +1,4 @@
-import { TransformMap } from "../cstTransformer";
-import { AllExprNodes } from "../cst/Node";
+import { TransformMap, AllExprNodes } from "sql-parser-cst";
 import { Node as AstNode, StringLiteral } from "../ast/Node";
 import { cstToAst } from "../cstToAst";
 import { keywordToBoolean, keywordToString } from "./transformUtils";

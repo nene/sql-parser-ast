@@ -1,4 +1,4 @@
-import { Keyword, Node as CstNode } from "../cst/Node";
+import { Keyword, Node as CstNode } from "sql-parser-cst";
 import { Node as AstNode } from "../ast/Node";
 
 type ClausesMap<TCstNode extends CstNode, TAstNode extends AstNode> = {
@@ -16,7 +16,7 @@ export const mergeClauses = <
 ): Partial<TAstNode> => {
   const result: Partial<TAstNode> = {};
   for (const clause of clauses) {
-    const node = clause as Extract<TCstNode, { type: typeof clause["type"] }>;
+    const node = clause as Extract<TCstNode, { type: (typeof clause)["type"] }>;
     const fn = map[node.type] as (e: typeof node) => Partial<TAstNode>;
     if (!fn) {
       throw new Error(`No map entry for clause: ${node.type}`);

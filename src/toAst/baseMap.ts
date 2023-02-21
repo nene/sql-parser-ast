@@ -1,5 +1,4 @@
-import { FullTransformMap } from "../cstTransformer";
-import { AllColumns } from "../cst/Node";
+import { FullTransformMap, AllColumns } from "sql-parser-cst";
 import { Node as AstNode } from "../ast/Node";
 
 export const baseMap: FullTransformMap<AstNode, AllColumns> = {

@@ -1,4 +1,4 @@
-import { cstTransformer } from "../cstTransformer";
+import { cstTransformer } from "sql-parser-cst";
 import { Node as AstNode } from "../ast/Node";
 import { aliasMap } from "./aliasMap";
 import { baseMap } from "./baseMap";
