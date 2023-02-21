@@ -2,7 +2,7 @@ import { TransformMap, AllExprNodes } from "sql-parser-cst";
 import { Node as AstNode, StringLiteral } from "../ast/Node";
 import { cstToAst } from "../cstToAst";
 import { keywordToBoolean, keywordToString } from "./transformUtils";
-import { isString } from "../utils/generic";
+import { isString } from "../utils";
 
 export const exprMap: TransformMap<AstNode, AllExprNodes> = {
   paren_expr: (node) => cstToAst(node.expr),

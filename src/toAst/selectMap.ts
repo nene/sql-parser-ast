@@ -12,7 +12,7 @@ import {
   keywordToString,
   mergeClauses,
 } from "./transformUtils";
-import { isString } from "../utils/generic";
+import { isString } from "../utils";
 import {
   fromClause,
   limitClause,

@@ -1,4 +1,4 @@
-import { isObject, isString } from "./utils/generic";
+import { isObject, isString } from "./utils";
 import { Node } from "./ast/Node";
 
 /* Executes a function with all nodes in syntax tree */
