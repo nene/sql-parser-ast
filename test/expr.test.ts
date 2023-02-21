@@ -1,5 +1,5 @@
 import { parseAstExpr } from "./ast_test_utils";
-import { dialect } from "../test_utils";
+import { dialect } from "./test_utils";
 
 describe("expr", () => {
   it("parses binary expr", () => {

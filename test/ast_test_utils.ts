@@ -1,7 +1,7 @@
 import { ParserOptions, DialectName } from "sql-parser-cst";
-import { parseAst as origParseAst } from "../../src/main";
-import { Node, Program } from "../../src/ast/Node";
-import { astVisitAll } from "../../src/astVisitAll";
+import { parseAst as origParseAst } from "../src/main";
+import { Node, Program } from "../src/ast/Node";
+import { astVisitAll } from "../src/astVisitAll";
 
 declare const __SQL_DIALECT__: DialectName;
 

@@ -1,4 +1,4 @@
-import { dialect } from "../test_utils";
+import { dialect } from "./test_utils";
 import { parseAstSelect } from "./ast_test_utils";
 
 describe("select", () => {
