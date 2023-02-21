@@ -1,5 +1,4 @@
-import { dialect } from "./test_utils";
-import { parseAstSelect } from "./ast_test_utils";
+import { parseAstSelect, dialect } from "./test_utils";
 
 describe("select..window", () => {
   it("parses SELECT with WINDOW clause", () => {

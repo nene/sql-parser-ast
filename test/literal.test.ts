@@ -1,5 +1,4 @@
-import { parseAstExpr } from "./ast_test_utils";
-import { dialect } from "./test_utils";
+import { parseAstExpr, dialect } from "./test_utils";
 
 describe("literal", () => {
   it("parses string", () => {

@@ -1,4 +1,4 @@
-import { parseAst } from "./ast_test_utils";
+import { parseAst } from "./test_utils";
 
 describe("compound select", () => {
   it("parses UNION", () => {

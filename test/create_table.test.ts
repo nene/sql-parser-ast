@@ -1,5 +1,4 @@
-import { createParseSpecificStmt } from "./ast_test_utils";
-import { dialect } from "./test_utils";
+import { createParseSpecificStmt, dialect } from "./test_utils";
 
 describe("create table", () => {
   const parseAstCreateTable = createParseSpecificStmt("create_table_stmt");
