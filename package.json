@@ -5,6 +5,7 @@
   "version": "0.0.0",
   "main": "lib/main.js",
   "types": "lib/main.d.ts",
+  "author": "Rene Saarsoo <nene@triin.net>",
   "repository": {
     "type": "git",
     "url": "https://github.com/nene/sql-parser-ast"
