@@ -1,5 +1,5 @@
 import { ParserOptions, DialectName } from "sql-parser-cst";
-import { parseAst as origParseAst } from "../src/main";
+import { parse } from "../src/main";
 import { Node, Program } from "../src/ast/Node";
 import { astVisitAll } from "../src/astVisitAll";
 import { isString } from "../src/utils";
@@ -19,7 +19,7 @@ export function parseAst(
 ): Program {
   return stripUndefinedFields(
     stripRangeFields(
-      origParseAst(sql, {
+      parse(sql, {
         includeRange: true,
         dialect: __SQL_DIALECT__,
         ...options,
