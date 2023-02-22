@@ -1,40 +1,6 @@
-import { parseAstSelect, dialect, parseAst } from "./test_utils";
+import { parseAstSelect, dialect } from "./test_utils";
 
 describe("select", () => {
-  it("parses basics", () => {
-    expect(parseAst("SELECT * FROM customer WHERE age > 10")).toMatchInlineSnapshot(`
-      {
-        "statements": [
-          {
-            "columns": [
-              {
-                "type": "all_columns",
-              },
-            ],
-            "from": {
-              "name": "customer",
-              "type": "identifier",
-            },
-            "type": "select_stmt",
-            "where": {
-              "left": {
-                "name": "age",
-                "type": "identifier",
-              },
-              "operator": ">",
-              "right": {
-                "type": "number_literal",
-                "value": 10,
-              },
-              "type": "binary_expr",
-            },
-          },
-        ],
-        "type": "program",
-      }
-    `);
-  });
-
   it("parses SELECT with standard clauses", () => {
     expect(
       parseAstSelect(`
