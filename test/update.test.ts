@@ -1,4 +1,4 @@
-import { createParseSpecificStmt, dialect } from "./test_utils";
+import { createParseSpecificStmt } from "./test_utils";
 
 describe("update", () => {
   const parseUpdate = createParseSpecificStmt("update_stmt");
@@ -127,45 +127,43 @@ describe("update", () => {
     `);
   });
 
-  dialect("sqlite", () => {
-    it("parses UPDATE OR ABORT", () => {
-      expect(parseUpdate(`UPDATE OR ABORT tbl SET x=1`).orAction).toBe("abort");
-    });
+  it("parses UPDATE OR ABORT", () => {
+    expect(parseUpdate(`UPDATE OR ABORT tbl SET x=1`).orAction).toBe("abort");
+  });
 
-    it("parses multi-column assignment", () => {
-      expect(parseUpdate(`UPDATE tbl SET (x, y) = (1, 2)`).assignments).toMatchInlineSnapshot(`
-        [
-          {
-            "column": {
-              "items": [
-                {
-                  "name": "x",
-                  "type": "identifier",
-                },
-                {
-                  "name": "y",
-                  "type": "identifier",
-                },
-              ],
-              "type": "list_expr",
-            },
-            "expr": {
-              "items": [
-                {
-                  "type": "number_literal",
-                  "value": 1,
-                },
-                {
-                  "type": "number_literal",
-                  "value": 2,
-                },
-              ],
-              "type": "list_expr",
-            },
-            "type": "column_assignment",
+  it("parses multi-column assignment", () => {
+    expect(parseUpdate(`UPDATE tbl SET (x, y) = (1, 2)`).assignments).toMatchInlineSnapshot(`
+      [
+        {
+          "column": {
+            "items": [
+              {
+                "name": "x",
+                "type": "identifier",
+              },
+              {
+                "name": "y",
+                "type": "identifier",
+              },
+            ],
+            "type": "list_expr",
           },
-        ]
-      `);
-    });
+          "expr": {
+            "items": [
+              {
+                "type": "number_literal",
+                "value": 1,
+              },
+              {
+                "type": "number_literal",
+                "value": 2,
+              },
+            ],
+            "type": "list_expr",
+          },
+          "type": "column_assignment",
+        },
+      ]
+    `);
   });
 });

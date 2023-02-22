@@ -1,4 +1,4 @@
-import { parseSelect, dialect } from "./test_utils";
+import { parseSelect } from "./test_utils";
 
 describe("select..window", () => {
   it("parses SELECT with WINDOW clause", () => {
@@ -109,23 +109,21 @@ describe("select..window", () => {
       `);
     });
 
-    dialect("sqlite", () => {
-      it("parses GROUPS UNBOUNDED PRECEDING EXCLUDE CURRENT ROW", () => {
-        expect(parseWindowFrame("GROUPS UNBOUNDED PRECEDING EXCLUDE CURRENT ROW"))
-          .toMatchInlineSnapshot(`
-          {
-            "exclude": "current row",
-            "extent": {
-              "expr": {
-                "type": "frame_unbounded",
-              },
-              "type": "frame_bound_preceding",
+    it("parses GROUPS UNBOUNDED PRECEDING EXCLUDE CURRENT ROW", () => {
+      expect(parseWindowFrame("GROUPS UNBOUNDED PRECEDING EXCLUDE CURRENT ROW"))
+        .toMatchInlineSnapshot(`
+        {
+          "exclude": "current row",
+          "extent": {
+            "expr": {
+              "type": "frame_unbounded",
             },
-            "type": "frame_clause",
-            "unit": "groups",
-          }
-        `);
-      });
+            "type": "frame_bound_preceding",
+          },
+          "type": "frame_clause",
+          "unit": "groups",
+        }
+      `);
     });
   });
 });

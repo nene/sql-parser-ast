@@ -1,4 +1,4 @@
-import { parseExpr, dialect } from "./test_utils";
+import { parseExpr } from "./test_utils";
 
 describe("literal", () => {
   it("parses string", () => {
@@ -54,71 +54,69 @@ describe("literal", () => {
     `);
   });
 
-  dialect("bigquery", () => {
-    it("parses date", () => {
-      expect(parseExpr("DATE '1987-02-17'")).toMatchInlineSnapshot(`
-        {
-          "type": "date_literal",
-          "value": "1987-02-17",
-        }
-      `);
-    });
-
-    it("parses time", () => {
-      expect(parseExpr("TIME '12:30:11'")).toMatchInlineSnapshot(`
-        {
-          "type": "time_literal",
-          "value": "12:30:11",
-        }
-      `);
-    });
-
-    it("parses datetime", () => {
-      expect(parseExpr("DATETIME '1987-02-17 12:30:11'")).toMatchInlineSnapshot(`
-        {
-          "type": "datetime_literal",
-          "value": "1987-02-17 12:30:11",
-        }
-      `);
-    });
-
-    it("parses timestamp", () => {
-      expect(parseExpr("TIMESTAMP '1987-02-17 12:30:11 America/Los_Angeles'"))
-        .toMatchInlineSnapshot(`
-        {
-          "type": "timestamp_literal",
-          "value": "1987-02-17 12:30:11 America/Los_Angeles",
-        }
-      `);
-    });
+  it("parses date", () => {
+    expect(parseExpr("DATE '1987-02-17'", { dialect: "bigquery" })).toMatchInlineSnapshot(`
+      {
+        "type": "date_literal",
+        "value": "1987-02-17",
+      }
+    `);
   });
 
-  dialect("bigquery", () => {
-    it("parses json", () => {
-      expect(parseExpr(`JSON '{"foo": 10}'`)).toMatchInlineSnapshot(`
-        {
-          "type": "json_literal",
-          "value": "{"foo": 10}",
-        }
-      `);
-    });
+  it("parses time", () => {
+    expect(parseExpr("TIME '12:30:11'", { dialect: "bigquery" })).toMatchInlineSnapshot(`
+      {
+        "type": "time_literal",
+        "value": "12:30:11",
+      }
+    `);
+  });
 
-    it("parses numeric", () => {
-      expect(parseExpr(`NUMERIC '123465'`)).toMatchInlineSnapshot(`
-        {
-          "type": "numeric_literal",
-          "value": "123465",
-        }
-      `);
-    });
+  it("parses datetime", () => {
+    expect(parseExpr("DATETIME '1987-02-17 12:30:11'", { dialect: "bigquery" }))
+      .toMatchInlineSnapshot(`
+      {
+        "type": "datetime_literal",
+        "value": "1987-02-17 12:30:11",
+      }
+    `);
+  });
 
-    it("parses bignumeric", () => {
-      expect(parseExpr(`BIGNUMERIC '123456789'`)).toMatchInlineSnapshot(`
-        {
-          "type": "bignumeric_literal",
-          "value": "123456789",
-        }
-      `);
-    });
+  it("parses timestamp", () => {
+    expect(
+      parseExpr("TIMESTAMP '1987-02-17 12:30:11 America/Los_Angeles'", { dialect: "bigquery" })
+    ).toMatchInlineSnapshot(`
+      {
+        "type": "timestamp_literal",
+        "value": "1987-02-17 12:30:11 America/Los_Angeles",
+      }
+    `);
+  });
+
+  it("parses json", () => {
+    expect(parseExpr(`JSON '{"foo": 10}'`, { dialect: "bigquery" })).toMatchInlineSnapshot(`
+      {
+        "type": "json_literal",
+        "value": "{"foo": 10}",
+      }
+    `);
+  });
+
+  it("parses numeric", () => {
+    expect(parseExpr(`NUMERIC '123465'`, { dialect: "bigquery" })).toMatchInlineSnapshot(`
+      {
+        "type": "numeric_literal",
+        "value": "123465",
+      }
+    `);
+  });
+
+  it("parses bignumeric", () => {
+    expect(parseExpr(`BIGNUMERIC '123456789'`, { dialect: "bigquery" })).toMatchInlineSnapshot(`
+      {
+        "type": "bignumeric_literal",
+        "value": "123456789",
+      }
+    `);
   });
 });

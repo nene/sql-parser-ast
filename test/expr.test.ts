@@ -1,4 +1,4 @@
-import { parseExpr, dialect } from "./test_utils";
+import { parseExpr } from "./test_utils";
 
 describe("expr", () => {
   it("parses binary expr", () => {
@@ -89,19 +89,17 @@ describe("expr", () => {
     `);
   });
 
-  dialect("sqlite", () => {
-    it("parses postfix operator", () => {
-      expect(parseExpr("x NOT NULL")).toMatchInlineSnapshot(`
-        {
-          "expr": {
-            "name": "x",
-            "type": "identifier",
-          },
-          "operator": "not null",
-          "type": "postfix_op_expr",
-        }
-      `);
-    });
+  it("parses postfix operator", () => {
+    expect(parseExpr("x NOT NULL")).toMatchInlineSnapshot(`
+      {
+        "expr": {
+          "name": "x",
+          "type": "identifier",
+        },
+        "operator": "not null",
+        "type": "postfix_op_expr",
+      }
+    `);
   });
 
   it("parses simple func call", () => {
@@ -167,36 +165,34 @@ describe("expr", () => {
     `);
   });
 
-  dialect("sqlite", () => {
-    it("parses function call with filter", () => {
-      expect(parseExpr("sum(price) FILTER (WHERE x > 10)")).toMatchInlineSnapshot(`
-        {
-          "args": [
-            {
-              "name": "price",
-              "type": "identifier",
-            },
-          ],
-          "filter": {
-            "left": {
-              "name": "x",
-              "type": "identifier",
-            },
-            "operator": ">",
-            "right": {
-              "type": "number_literal",
-              "value": 10,
-            },
-            "type": "binary_expr",
-          },
-          "name": {
-            "name": "sum",
+  it("parses function call with filter", () => {
+    expect(parseExpr("sum(price) FILTER (WHERE x > 10)")).toMatchInlineSnapshot(`
+      {
+        "args": [
+          {
+            "name": "price",
             "type": "identifier",
           },
-          "type": "func_call",
-        }
-      `);
-    });
+        ],
+        "filter": {
+          "left": {
+            "name": "x",
+            "type": "identifier",
+          },
+          "operator": ">",
+          "right": {
+            "type": "number_literal",
+            "value": 10,
+          },
+          "type": "binary_expr",
+        },
+        "name": {
+          "name": "sum",
+          "type": "identifier",
+        },
+        "type": "func_call",
+      }
+    `);
   });
 
   it("parses CAST() expression", () => {
@@ -340,20 +336,18 @@ describe("expr", () => {
     `);
   });
 
-  dialect("sqlite", () => {
-    it("parses raise expr", () => {
-      expect(parseExpr("RAISE(ABORT, 'Error happened')")).toMatchInlineSnapshot(`
-        {
-          "args": [
-            "abort",
-            {
-              "type": "string_literal",
-              "value": "Error happened",
-            },
-          ],
-          "type": "raise_expr",
-        }
-      `);
-    });
+  it("parses raise expr", () => {
+    expect(parseExpr("RAISE(ABORT, 'Error happened')")).toMatchInlineSnapshot(`
+      {
+        "args": [
+          "abort",
+          {
+            "type": "string_literal",
+            "value": "Error happened",
+          },
+        ],
+        "type": "raise_expr",
+      }
+    `);
   });
 });

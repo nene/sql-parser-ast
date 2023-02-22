@@ -1,4 +1,4 @@
-import { createParseSpecificStmt, dialect } from "./test_utils";
+import { createParseSpecificStmt } from "./test_utils";
 
 describe("insert", () => {
   const parseInsert = createParseSpecificStmt("insert_stmt");
@@ -87,10 +87,8 @@ describe("insert", () => {
     `);
   });
 
-  dialect("sqlite", () => {
-    it("parses INSERT OR REPLACE", () => {
-      expect(parseInsert(`INSERT OR REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
-    });
+  it("parses INSERT OR REPLACE", () => {
+    expect(parseInsert(`INSERT OR REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
   });
 
   it("parses REPLACE INTO statement the same as INSERT OR REPLACE INTO", () => {

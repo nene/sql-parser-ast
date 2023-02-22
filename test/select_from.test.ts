@@ -1,4 +1,4 @@
-import { parseSelect, dialect } from "./test_utils";
+import { parseSelect } from "./test_utils";
 
 describe("select from", () => {
   it("parses comma-join", () => {
@@ -34,11 +34,9 @@ describe("select from", () => {
     expect(parseJoinOp("CROSS JOIN")).toBe("cross join");
   });
 
-  dialect("sqlite", () => {
-    it("parses natural join types", () => {
-      expect(parseJoinOp("NATURAL JOIN")).toBe("natural join");
-      expect(parseJoinOp("NATURAL LEFT JOIN")).toBe("natural left join");
-    });
+  it("parses natural join types", () => {
+    expect(parseJoinOp("NATURAL JOIN")).toBe("natural join");
+    expect(parseJoinOp("NATURAL LEFT JOIN")).toBe("natural left join");
   });
 
   it("parses JOIN .. ON", () => {
