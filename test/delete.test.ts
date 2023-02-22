@@ -1,10 +1,10 @@
 import { createParseSpecificStmt, dialect } from "./test_utils";
 
 describe("delete", () => {
-  const parseAstDelete = createParseSpecificStmt("delete_stmt");
+  const parseDelete = createParseSpecificStmt("delete_stmt");
 
   it("parses basic DELETE FROM", () => {
-    expect(parseAstDelete(`DELETE FROM tbl WHERE true`)).toMatchInlineSnapshot(`
+    expect(parseDelete(`DELETE FROM tbl WHERE true`)).toMatchInlineSnapshot(`
       {
         "table": {
           "name": "tbl",
@@ -20,7 +20,7 @@ describe("delete", () => {
   });
 
   it("parses WITH clause", () => {
-    expect(parseAstDelete(`WITH foo AS (SELECT 1) DELETE FROM tbl`).with).toMatchInlineSnapshot(`
+    expect(parseDelete(`WITH foo AS (SELECT 1) DELETE FROM tbl`).with).toMatchInlineSnapshot(`
       {
         "tables": [
           {
@@ -47,7 +47,7 @@ describe("delete", () => {
 
   dialect("sqlite", () => {
     it("parses RETURNING", () => {
-      expect(parseAstDelete(`DELETE FROM tbl RETURNING 1`).returning).toMatchInlineSnapshot(`
+      expect(parseDelete(`DELETE FROM tbl RETURNING 1`).returning).toMatchInlineSnapshot(`
         [
           {
             "type": "number_literal",
@@ -59,7 +59,7 @@ describe("delete", () => {
   });
 
   it("parses ORDER BY and LIMIT clauses", () => {
-    expect(parseAstDelete(`DELETE FROM tbl ORDER BY col1 LIMIT 10`)).toMatchInlineSnapshot(`
+    expect(parseDelete(`DELETE FROM tbl ORDER BY col1 LIMIT 10`)).toMatchInlineSnapshot(`
       {
         "limit": {
           "type": "number_literal",

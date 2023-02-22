@@ -1,10 +1,10 @@
 import { createParseSpecificStmt, dialect } from "./test_utils";
 
 describe("create table", () => {
-  const parseAstCreateTable = createParseSpecificStmt("create_table_stmt");
+  const parseCreateTable = createParseSpecificStmt("create_table_stmt");
 
   it("parses basic CREATE TABLE", () => {
-    expect(parseAstCreateTable(`CREATE TABLE my_table (id INT)`)).toMatchInlineSnapshot(`
+    expect(parseCreateTable(`CREATE TABLE my_table (id INT)`)).toMatchInlineSnapshot(`
       {
         "columns": [
           {
@@ -29,33 +29,31 @@ describe("create table", () => {
   });
 
   it("parses IF NOT EXISTS", () => {
-    expect(parseAstCreateTable(`CREATE TABLE IF NOT EXISTS my_table (id INT)`).ifNotExists).toBe(
-      true
-    );
+    expect(parseCreateTable(`CREATE TABLE IF NOT EXISTS my_table (id INT)`).ifNotExists).toBe(true);
   });
 
   it("parses TEMPORARY table", () => {
-    expect(parseAstCreateTable(`CREATE TEMPORARY TABLE my_table (id INT)`).temporary).toBe(true);
+    expect(parseCreateTable(`CREATE TEMPORARY TABLE my_table (id INT)`).temporary).toBe(true);
   });
 
   dialect(["bigquery"], () => {
     it("parses OR REPLACE", () => {
-      expect(parseAstCreateTable(`CREATE OR REPLACE TABLE my_table (id INT)`).orReplace).toBe(true);
+      expect(parseCreateTable(`CREATE OR REPLACE TABLE my_table (id INT)`).orReplace).toBe(true);
     });
 
     it("parses EXTERNAL table", () => {
-      expect(parseAstCreateTable(`CREATE EXTERNAL TABLE my_table (id INT)`).external).toBe(true);
+      expect(parseCreateTable(`CREATE EXTERNAL TABLE my_table (id INT)`).external).toBe(true);
     });
 
     it("parses SNAPSHOT table", () => {
-      expect(parseAstCreateTable(`CREATE SNAPSHOT TABLE my_table (id INT)`).snapshot).toBe(true);
+      expect(parseCreateTable(`CREATE SNAPSHOT TABLE my_table (id INT)`).snapshot).toBe(true);
     });
   });
 
   dialect(["sqlite", "mysql"], () => {
     it("parses table constraints", () => {
       expect(
-        parseAstCreateTable(`
+        parseCreateTable(`
           CREATE TABLE foo (
             id INT,
             PRIMARY KEY (id),
@@ -138,7 +136,7 @@ describe("create table", () => {
 
     it("parses named table constraint", () => {
       expect(
-        parseAstCreateTable(`
+        parseCreateTable(`
           CREATE TABLE foo (
             CONSTRAINT prim_key PRIMARY KEY (id)
           )`).columns
@@ -168,7 +166,7 @@ describe("create table", () => {
   dialect("sqlite", () => {
     it("parses PRIMARY KEY with ON CONFLICT", () => {
       expect(
-        parseAstCreateTable(`
+        parseCreateTable(`
           CREATE TABLE foo (
             PRIMARY KEY (id) ON CONFLICT ROLLBACK
           )`).columns
@@ -192,7 +190,7 @@ describe("create table", () => {
   dialect("sqlite", () => {
     it("parses FOREIGN KEY with ON DELETE CASCADE & MATCH FULL", () => {
       expect(
-        parseAstCreateTable(`
+        parseCreateTable(`
           CREATE TABLE tbl (
             FOREIGN KEY (id) REFERENCES foo (id) ON DELETE CASCADE MATCH FULL
           )`).columns
@@ -239,7 +237,7 @@ describe("create table", () => {
   dialect("mysql", () => {
     it("parses INDEX constraint", () => {
       expect(
-        parseAstCreateTable(`
+        parseCreateTable(`
           CREATE TABLE foo (
             INDEX (id)
           )`).columns

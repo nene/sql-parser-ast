@@ -1,10 +1,10 @@
 import { createParseSpecificStmt, dialect } from "./test_utils";
 
 describe("update", () => {
-  const parseAstUpdate = createParseSpecificStmt("update_stmt");
+  const parseUpdate = createParseSpecificStmt("update_stmt");
 
   it("parses basic UPDATE", () => {
-    expect(parseAstUpdate(`UPDATE tbl SET x = 1, y = 2 WHERE true`)).toMatchInlineSnapshot(`
+    expect(parseUpdate(`UPDATE tbl SET x = 1, y = 2 WHERE true`)).toMatchInlineSnapshot(`
       {
         "assignments": [
           {
@@ -47,7 +47,7 @@ describe("update", () => {
 
   it("parses WITH .. FROM .. ORDER BY .. LIMIT clauses", () => {
     expect(
-      parseAstUpdate(`
+      parseUpdate(`
         WITH foo AS (SELECT 1)
         UPDATE tbl
         SET x = 1, y = 2
@@ -129,11 +129,11 @@ describe("update", () => {
 
   dialect("sqlite", () => {
     it("parses UPDATE OR ABORT", () => {
-      expect(parseAstUpdate(`UPDATE OR ABORT tbl SET x=1`).orAction).toBe("abort");
+      expect(parseUpdate(`UPDATE OR ABORT tbl SET x=1`).orAction).toBe("abort");
     });
 
     it("parses multi-column assignment", () => {
-      expect(parseAstUpdate(`UPDATE tbl SET (x, y) = (1, 2)`).assignments).toMatchInlineSnapshot(`
+      expect(parseUpdate(`UPDATE tbl SET (x, y) = (1, 2)`).assignments).toMatchInlineSnapshot(`
         [
           {
             "column": {

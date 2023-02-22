@@ -1,8 +1,8 @@
-import { parseAstExpr, dialect } from "./test_utils";
+import { parseExpr, dialect } from "./test_utils";
 
 describe("expr", () => {
   it("parses binary expr", () => {
-    expect(parseAstExpr("'hello' + 1")).toMatchInlineSnapshot(`
+    expect(parseExpr("'hello' + 1")).toMatchInlineSnapshot(`
       {
         "left": {
           "type": "string_literal",
@@ -19,7 +19,7 @@ describe("expr", () => {
   });
 
   it("parses binary expr with keyword-operators", () => {
-    expect(parseAstExpr("true AND false")).toMatchInlineSnapshot(`
+    expect(parseExpr("true AND false")).toMatchInlineSnapshot(`
       {
         "left": {
           "type": "boolean_literal",
@@ -36,7 +36,7 @@ describe("expr", () => {
   });
 
   it("parses IN operator", () => {
-    expect(parseAstExpr("foo IN (1, 2, 3)")).toMatchInlineSnapshot(`
+    expect(parseExpr("foo IN (1, 2, 3)")).toMatchInlineSnapshot(`
       {
         "left": {
           "name": "foo",
@@ -66,7 +66,7 @@ describe("expr", () => {
   });
 
   it("parses prefix operator", () => {
-    expect(parseAstExpr("NOT false")).toMatchInlineSnapshot(`
+    expect(parseExpr("NOT false")).toMatchInlineSnapshot(`
       {
         "expr": {
           "type": "boolean_literal",
@@ -77,7 +77,7 @@ describe("expr", () => {
       }
     `);
 
-    expect(parseAstExpr("-x")).toMatchInlineSnapshot(`
+    expect(parseExpr("-x")).toMatchInlineSnapshot(`
       {
         "expr": {
           "name": "x",
@@ -91,7 +91,7 @@ describe("expr", () => {
 
   dialect("sqlite", () => {
     it("parses postfix operator", () => {
-      expect(parseAstExpr("x NOT NULL")).toMatchInlineSnapshot(`
+      expect(parseExpr("x NOT NULL")).toMatchInlineSnapshot(`
         {
           "expr": {
             "name": "x",
@@ -105,7 +105,7 @@ describe("expr", () => {
   });
 
   it("parses simple func call", () => {
-    expect(parseAstExpr("my_func(1, 2)")).toMatchInlineSnapshot(`
+    expect(parseExpr("my_func(1, 2)")).toMatchInlineSnapshot(`
       {
         "args": [
           {
@@ -127,7 +127,7 @@ describe("expr", () => {
   });
 
   it("parses func call with DISTINCT", () => {
-    expect(parseAstExpr("count(DISTINCT id)")).toMatchInlineSnapshot(`
+    expect(parseExpr("count(DISTINCT id)")).toMatchInlineSnapshot(`
       {
         "args": [
           {
@@ -146,7 +146,7 @@ describe("expr", () => {
   });
 
   it("parses window function call", () => {
-    expect(parseAstExpr("sum(price) OVER myWin")).toMatchInlineSnapshot(`
+    expect(parseExpr("sum(price) OVER myWin")).toMatchInlineSnapshot(`
       {
         "args": [
           {
@@ -169,7 +169,7 @@ describe("expr", () => {
 
   dialect("sqlite", () => {
     it("parses function call with filter", () => {
-      expect(parseAstExpr("sum(price) FILTER (WHERE x > 10)")).toMatchInlineSnapshot(`
+      expect(parseExpr("sum(price) FILTER (WHERE x > 10)")).toMatchInlineSnapshot(`
         {
           "args": [
             {
@@ -200,7 +200,7 @@ describe("expr", () => {
   });
 
   it("parses CAST() expression", () => {
-    expect(parseAstExpr("CAST(42 AS NUMERIC(10, 2))")).toMatchInlineSnapshot(`
+    expect(parseExpr("CAST(42 AS NUMERIC(10, 2))")).toMatchInlineSnapshot(`
       {
         "dataType": {
           "name": "numeric",
@@ -226,7 +226,7 @@ describe("expr", () => {
   });
 
   it("parses BETWEEN expr", () => {
-    expect(parseAstExpr("price BETWEEN 25 AND 100")).toMatchInlineSnapshot(`
+    expect(parseExpr("price BETWEEN 25 AND 100")).toMatchInlineSnapshot(`
       {
         "begin": {
           "type": "number_literal",
@@ -247,7 +247,7 @@ describe("expr", () => {
   });
 
   it("parses NOT BETWEEN expr", () => {
-    expect(parseAstExpr("price NOT BETWEEN 25 AND 100")).toMatchInlineSnapshot(`
+    expect(parseExpr("price NOT BETWEEN 25 AND 100")).toMatchInlineSnapshot(`
       {
         "begin": {
           "type": "number_literal",
@@ -268,7 +268,7 @@ describe("expr", () => {
   });
 
   it("parses member expr", () => {
-    expect(parseAstExpr("proj.schema.col")).toMatchInlineSnapshot(`
+    expect(parseExpr("proj.schema.col")).toMatchInlineSnapshot(`
       {
         "object": {
           "object": {
@@ -292,7 +292,7 @@ describe("expr", () => {
 
   it("parses CASE", () => {
     expect(
-      parseAstExpr(`
+      parseExpr(`
         CASE foo
           WHEN 1 THEN 'one'
           WHEN 2 THEN 'two'
@@ -342,7 +342,7 @@ describe("expr", () => {
 
   dialect("sqlite", () => {
     it("parses raise expr", () => {
-      expect(parseAstExpr("RAISE(ABORT, 'Error happened')")).toMatchInlineSnapshot(`
+      expect(parseExpr("RAISE(ABORT, 'Error happened')")).toMatchInlineSnapshot(`
         {
           "args": [
             "abort",

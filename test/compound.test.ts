@@ -1,8 +1,8 @@
-import { parseAst } from "./test_utils";
+import { parse } from "./test_utils";
 
 describe("compound select", () => {
   it("parses UNION", () => {
-    expect(parseAst("SELECT 1 UNION ALL SELECT 2")).toMatchInlineSnapshot(`
+    expect(parse("SELECT 1 UNION ALL SELECT 2")).toMatchInlineSnapshot(`
       {
         "statements": [
           {

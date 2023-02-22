@@ -1,9 +1,9 @@
-import { parseAstSelect, dialect } from "./test_utils";
+import { parseSelect, dialect } from "./test_utils";
 
 describe("select", () => {
   it("parses SELECT with standard clauses", () => {
     expect(
-      parseAstSelect(`
+      parseSelect(`
         WITH tbl AS (SELECT * FROM foo)
         SELECT col1, col2
         FROM tbl
@@ -83,12 +83,12 @@ describe("select", () => {
   });
 
   it("parses SELECT ALL/DISTINCT", () => {
-    expect(parseAstSelect("SELECT DISTINCT *").distinct).toBe("distinct");
-    expect(parseAstSelect("SELECT ALL *").distinct).toBe("all");
+    expect(parseSelect("SELECT DISTINCT *").distinct).toBe("distinct");
+    expect(parseSelect("SELECT ALL *").distinct).toBe("all");
   });
 
   it("parses aliases", () => {
-    expect(parseAstSelect("SELECT x AS foo").columns).toMatchInlineSnapshot(`
+    expect(parseSelect("SELECT x AS foo").columns).toMatchInlineSnapshot(`
       [
         {
           "alias": {
@@ -106,7 +106,7 @@ describe("select", () => {
   });
 
   it("parses ORDER BY sort specifiers", () => {
-    expect(parseAstSelect("SELECT * FROM t ORDER BY foo ASC, bar DESC").orderBy)
+    expect(parseSelect("SELECT * FROM t ORDER BY foo ASC, bar DESC").orderBy)
       .toMatchInlineSnapshot(`
       [
         {
@@ -131,7 +131,7 @@ describe("select", () => {
 
   dialect("sqlite", () => {
     it("parses ORDER BY with NULLS FIRST/LAST", () => {
-      expect(parseAstSelect("SELECT * FROM t ORDER BY foo NULLS FIRST, bar NULLS LAST").orderBy)
+      expect(parseSelect("SELECT * FROM t ORDER BY foo NULLS FIRST, bar NULLS LAST").orderBy)
         .toMatchInlineSnapshot(`
         [
           {
@@ -156,7 +156,7 @@ describe("select", () => {
   });
 
   it("parses LIMIT <offset>, <count>", () => {
-    const select = parseAstSelect("SELECT * FROM t LIMIT 100, 15");
+    const select = parseSelect("SELECT * FROM t LIMIT 100, 15");
     expect(select.limit).toMatchInlineSnapshot(`
       {
         "type": "number_literal",
@@ -172,7 +172,7 @@ describe("select", () => {
   });
 
   it("parses LIMIT <count> OFFSET <offset>", () => {
-    const select = parseAstSelect("SELECT * FROM t LIMIT 15 OFFSET 100");
+    const select = parseSelect("SELECT * FROM t LIMIT 15 OFFSET 100");
     expect(select.limit).toMatchInlineSnapshot(`
       {
         "type": "number_literal",

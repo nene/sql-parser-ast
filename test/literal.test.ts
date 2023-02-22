@@ -1,8 +1,8 @@
-import { parseAstExpr, dialect } from "./test_utils";
+import { parseExpr, dialect } from "./test_utils";
 
 describe("literal", () => {
   it("parses string", () => {
-    expect(parseAstExpr("'Hello'")).toMatchInlineSnapshot(`
+    expect(parseExpr("'Hello'")).toMatchInlineSnapshot(`
       {
         "type": "string_literal",
         "value": "Hello",
@@ -11,7 +11,7 @@ describe("literal", () => {
   });
 
   it("parses number", () => {
-    expect(parseAstExpr("12.5")).toMatchInlineSnapshot(`
+    expect(parseExpr("12.5")).toMatchInlineSnapshot(`
       {
         "type": "number_literal",
         "value": 12.5,
@@ -20,7 +20,7 @@ describe("literal", () => {
   });
 
   it("parses blob", () => {
-    expect(parseAstExpr(`x'3132332D414243'`)).toMatchInlineSnapshot(`
+    expect(parseExpr(`x'3132332D414243'`)).toMatchInlineSnapshot(`
       {
         "type": "blob_literal",
         "value": [
@@ -37,7 +37,7 @@ describe("literal", () => {
   });
 
   it("parses boolean", () => {
-    expect(parseAstExpr("TRUE")).toMatchInlineSnapshot(`
+    expect(parseExpr("TRUE")).toMatchInlineSnapshot(`
       {
         "type": "boolean_literal",
         "value": true,
@@ -46,7 +46,7 @@ describe("literal", () => {
   });
 
   it("parses null", () => {
-    expect(parseAstExpr("NULL")).toMatchInlineSnapshot(`
+    expect(parseExpr("NULL")).toMatchInlineSnapshot(`
       {
         "type": "null_literal",
         "value": null,
@@ -56,7 +56,7 @@ describe("literal", () => {
 
   dialect(["bigquery", "mysql"], () => {
     it("parses date", () => {
-      expect(parseAstExpr("DATE '1987-02-17'")).toMatchInlineSnapshot(`
+      expect(parseExpr("DATE '1987-02-17'")).toMatchInlineSnapshot(`
         {
           "type": "date_literal",
           "value": "1987-02-17",
@@ -65,7 +65,7 @@ describe("literal", () => {
     });
 
     it("parses time", () => {
-      expect(parseAstExpr("TIME '12:30:11'")).toMatchInlineSnapshot(`
+      expect(parseExpr("TIME '12:30:11'")).toMatchInlineSnapshot(`
         {
           "type": "time_literal",
           "value": "12:30:11",
@@ -74,7 +74,7 @@ describe("literal", () => {
     });
 
     it("parses datetime", () => {
-      expect(parseAstExpr("DATETIME '1987-02-17 12:30:11'")).toMatchInlineSnapshot(`
+      expect(parseExpr("DATETIME '1987-02-17 12:30:11'")).toMatchInlineSnapshot(`
         {
           "type": "datetime_literal",
           "value": "1987-02-17 12:30:11",
@@ -83,7 +83,7 @@ describe("literal", () => {
     });
 
     it("parses timestamp", () => {
-      expect(parseAstExpr("TIMESTAMP '1987-02-17 12:30:11 America/Los_Angeles'"))
+      expect(parseExpr("TIMESTAMP '1987-02-17 12:30:11 America/Los_Angeles'"))
         .toMatchInlineSnapshot(`
         {
           "type": "timestamp_literal",
@@ -95,7 +95,7 @@ describe("literal", () => {
 
   dialect(["bigquery"], () => {
     it("parses json", () => {
-      expect(parseAstExpr(`JSON '{"foo": 10}'`)).toMatchInlineSnapshot(`
+      expect(parseExpr(`JSON '{"foo": 10}'`)).toMatchInlineSnapshot(`
         {
           "type": "json_literal",
           "value": "{"foo": 10}",
@@ -104,7 +104,7 @@ describe("literal", () => {
     });
 
     it("parses numeric", () => {
-      expect(parseAstExpr(`NUMERIC '123465'`)).toMatchInlineSnapshot(`
+      expect(parseExpr(`NUMERIC '123465'`)).toMatchInlineSnapshot(`
         {
           "type": "numeric_literal",
           "value": "123465",
@@ -113,7 +113,7 @@ describe("literal", () => {
     });
 
     it("parses bignumeric", () => {
-      expect(parseAstExpr(`BIGNUMERIC '123456789'`)).toMatchInlineSnapshot(`
+      expect(parseExpr(`BIGNUMERIC '123456789'`)).toMatchInlineSnapshot(`
         {
           "type": "bignumeric_literal",
           "value": "123456789",

@@ -1,10 +1,9 @@
-import { parseAstSelect, dialect } from "./test_utils";
+import { parseSelect, dialect } from "./test_utils";
 
 describe("select..window", () => {
   it("parses SELECT with WINDOW clause", () => {
-    expect(
-      parseAstSelect("SELECT * FROM t WINDOW win1 AS (baseWin PARTITION BY col1 ORDER BY col2)")
-    ).toMatchInlineSnapshot(`
+    expect(parseSelect("SELECT * FROM t WINDOW win1 AS (baseWin PARTITION BY col1 ORDER BY col2)"))
+      .toMatchInlineSnapshot(`
       {
         "columns": [
           {
@@ -50,7 +49,7 @@ describe("select..window", () => {
 
   describe("window frames", () => {
     const parseWindowFrame = (def: string) => {
-      const { window } = parseAstSelect(`SELECT * FROM t WINDOW win1 AS (${def})`);
+      const { window } = parseSelect(`SELECT * FROM t WINDOW win1 AS (${def})`);
       if (!window) {
         throw new Error(`Expected a window clause`);
       }

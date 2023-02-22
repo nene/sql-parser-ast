@@ -1,5 +1,5 @@
 import { ParserOptions, DialectName } from "sql-parser-cst";
-import { parse } from "../src/main";
+import { parse as parseAst } from "../src/main";
 import { Node, Program } from "../src/ast/Node";
 import { astVisitAll } from "../src/astVisitAll";
 import { isString } from "../src/utils";
@@ -13,13 +13,13 @@ export function dialect(lang: DialectName | DialectName[], block: () => void) {
   }
 }
 
-export function parseAst(
+export function parse(
   sql: string,
   options: Partial<ParserOptions> = {}
 ): Program {
   return stripUndefinedFields(
     stripRangeFields(
-      parse(sql, {
+      parseAst(sql, {
         includeRange: true,
         dialect: __SQL_DIALECT__,
         ...options,
@@ -28,11 +28,8 @@ export function parseAst(
   );
 }
 
-export function parseAstStmt(
-  sql: string,
-  options: Partial<ParserOptions> = {}
-) {
-  const statements = parseAst(sql, options).statements;
+export function parseStmt(sql: string, options: Partial<ParserOptions> = {}) {
+  const statements = parse(sql, options).statements;
   if (statements.length !== 1) {
     throw new Error(
       `Expected exactly one statements, instead got ${statements.length}`
@@ -45,7 +42,7 @@ export function createParseSpecificStmt<TType extends Node["type"]>(
   type: TType
 ) {
   return (sql: string, options: Partial<ParserOptions> = {}) => {
-    const stmt = parseAstStmt(sql, options);
+    const stmt = parseStmt(sql, options);
     if (stmt.type !== type) {
       throw new Error(`Expected ${type}, instead got ${stmt.type}`);
     }
@@ -53,13 +50,10 @@ export function createParseSpecificStmt<TType extends Node["type"]>(
   };
 }
 
-export const parseAstSelect = createParseSpecificStmt("select_stmt");
+export const parseSelect = createParseSpecificStmt("select_stmt");
 
-export function parseAstExpr(
-  sql: string,
-  options: Partial<ParserOptions> = {}
-) {
-  const stmt = parseAstSelect(`SELECT ${sql}`, options);
+export function parseExpr(sql: string, options: Partial<ParserOptions> = {}) {
+  const stmt = parseSelect(`SELECT ${sql}`, options);
   if (stmt.columns.length !== 1) {
     throw new Error(
       `Expected single column in select, instead got ${stmt.columns.length}`

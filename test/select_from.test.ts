@@ -1,8 +1,8 @@
-import { parseAstSelect, dialect } from "./test_utils";
+import { parseSelect, dialect } from "./test_utils";
 
 describe("select from", () => {
   it("parses comma-join", () => {
-    expect(parseAstSelect("SELECT * FROM foo, bar").from).toMatchInlineSnapshot(`
+    expect(parseSelect("SELECT * FROM foo, bar").from).toMatchInlineSnapshot(`
       {
         "left": {
           "name": "foo",
@@ -19,7 +19,7 @@ describe("select from", () => {
   });
 
   const parseJoinOp = (join: string) => {
-    const { from } = parseAstSelect(`SELECT * FROM foo ${join} bar`);
+    const { from } = parseSelect(`SELECT * FROM foo ${join} bar`);
     if (from?.type !== "join_expr") {
       throw new Error(`Expected join_expr, instead got ${from ? from.type : "undefined"}`);
     }
@@ -42,7 +42,7 @@ describe("select from", () => {
   });
 
   it("parses JOIN .. ON", () => {
-    expect(parseAstSelect("SELECT * FROM foo JOIN bar ON true").from).toMatchInlineSnapshot(`
+    expect(parseSelect("SELECT * FROM foo JOIN bar ON true").from).toMatchInlineSnapshot(`
       {
         "left": {
           "name": "foo",
@@ -66,7 +66,7 @@ describe("select from", () => {
   });
 
   it("parses JOIN .. USING", () => {
-    expect(parseAstSelect("SELECT * FROM foo JOIN bar USING (col1, col2)").from)
+    expect(parseSelect("SELECT * FROM foo JOIN bar USING (col1, col2)").from)
       .toMatchInlineSnapshot(`
       {
         "left": {
@@ -97,7 +97,7 @@ describe("select from", () => {
   });
 
   it("parses SELECT FROM subquery", () => {
-    expect(parseAstSelect("SELECT * FROM (SELECT 1) AS t").from).toMatchInlineSnapshot(`
+    expect(parseSelect("SELECT * FROM (SELECT 1) AS t").from).toMatchInlineSnapshot(`
       {
         "alias": {
           "name": "t",

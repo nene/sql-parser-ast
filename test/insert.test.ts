@@ -1,11 +1,11 @@
 import { createParseSpecificStmt, dialect } from "./test_utils";
 
 describe("insert", () => {
-  const parseAstInsert = createParseSpecificStmt("insert_stmt");
+  const parseInsert = createParseSpecificStmt("insert_stmt");
 
   it("parses basic INSERT", () => {
     expect(
-      parseAstInsert(`
+      parseInsert(`
         INSERT INTO tbl (col1, col2)
         VALUES (1, 2), (3, 4)
       `)
@@ -57,7 +57,7 @@ describe("insert", () => {
 
   it("parses WITH..INSERT", () => {
     expect(
-      parseAstInsert(`
+      parseInsert(`
         WITH foo AS (SELECT 1)
         INSERT INTO tbl
         VALUES (1)
@@ -89,16 +89,16 @@ describe("insert", () => {
 
   dialect("sqlite", () => {
     it("parses INSERT OR REPLACE", () => {
-      expect(parseAstInsert(`INSERT OR REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
+      expect(parseInsert(`INSERT OR REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
     });
   });
 
   it("parses REPLACE INTO statement the same as INSERT OR REPLACE INTO", () => {
-    expect(parseAstInsert(`REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
+    expect(parseInsert(`REPLACE INTO tbl VALUES (1)`).orAction).toBe("replace");
   });
 
   it("parses INSERT .. DEFAULT VALUES", () => {
-    expect(parseAstInsert(`INSERT INTO tbl DEFAULT VALUES`).values).toMatchInlineSnapshot(`
+    expect(parseInsert(`INSERT INTO tbl DEFAULT VALUES`).values).toMatchInlineSnapshot(`
       {
         "type": "default_values",
       }
@@ -106,7 +106,7 @@ describe("insert", () => {
   });
 
   it("parses INSERT .. SELECT", () => {
-    expect(parseAstInsert(`INSERT INTO tbl SELECT 1`).values).toMatchInlineSnapshot(`
+    expect(parseInsert(`INSERT INTO tbl SELECT 1`).values).toMatchInlineSnapshot(`
       {
         "columns": [
           {
@@ -120,7 +120,7 @@ describe("insert", () => {
   });
 
   it("parses INSERT .. SELECT UNION SELECT", () => {
-    expect(parseAstInsert(`INSERT INTO tbl SELECT 1 UNION ALL SELECT 2`).values)
+    expect(parseInsert(`INSERT INTO tbl SELECT 1 UNION ALL SELECT 2`).values)
       .toMatchInlineSnapshot(`
       {
         "left": {
@@ -148,8 +148,7 @@ describe("insert", () => {
   });
 
   it("parses RETURNING clause", () => {
-    expect(parseAstInsert(`INSERT INTO tbl VALUES (1) RETURNING id`).returning)
-      .toMatchInlineSnapshot(`
+    expect(parseInsert(`INSERT INTO tbl VALUES (1) RETURNING id`).returning).toMatchInlineSnapshot(`
       [
         {
           "name": "id",
