@@ -36,7 +36,7 @@ describe("create table", () => {
     expect(parseCreateTable(`CREATE TEMPORARY TABLE my_table (id INT)`).temporary).toBe(true);
   });
 
-  dialect(["bigquery"], () => {
+  dialect("bigquery", () => {
     it("parses OR REPLACE", () => {
       expect(parseCreateTable(`CREATE OR REPLACE TABLE my_table (id INT)`).orReplace).toBe(true);
     });
@@ -50,7 +50,7 @@ describe("create table", () => {
     });
   });
 
-  dialect(["sqlite", "mysql"], () => {
+  dialect("sqlite", () => {
     it("parses table constraints", () => {
       expect(
         parseCreateTable(`

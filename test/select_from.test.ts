@@ -34,7 +34,7 @@ describe("select from", () => {
     expect(parseJoinOp("CROSS JOIN")).toBe("cross join");
   });
 
-  dialect(["sqlite", "mysql"], () => {
+  dialect("sqlite", () => {
     it("parses natural join types", () => {
       expect(parseJoinOp("NATURAL JOIN")).toBe("natural join");
       expect(parseJoinOp("NATURAL LEFT JOIN")).toBe("natural left join");

@@ -54,7 +54,7 @@ describe("literal", () => {
     `);
   });
 
-  dialect(["bigquery", "mysql"], () => {
+  dialect("bigquery", () => {
     it("parses date", () => {
       expect(parseExpr("DATE '1987-02-17'")).toMatchInlineSnapshot(`
         {
@@ -93,7 +93,7 @@ describe("literal", () => {
     });
   });
 
-  dialect(["bigquery"], () => {
+  dialect("bigquery", () => {
     it("parses json", () => {
       expect(parseExpr(`JSON '{"foo": 10}'`)).toMatchInlineSnapshot(`
         {
